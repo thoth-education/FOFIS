@@ -1,14 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
-const textExample = require('./routes/textExample');
-
 const port = 3000;
-
 const app = express();
 
-app.use(bodyParser.json());
+//Routes
+const watsonAssistantRouter = require('./routes/watsonAssistant');
 
-app.use('/api/textExample', textExample);
+//Endpoints
+app.use('/watsonAssistant', watsonAssistantRouter);
 
-app.listen(port, () => console.log(`Listening on port ${port}...`));
+module.exports = app;
