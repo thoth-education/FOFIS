@@ -12,7 +12,7 @@ module.exports = {
     sendTextToTranslate : function(callback, data) {
         const translateParams = {
             text: data,
-            model_id: 'en-pt',
+            model_id: 'pt-en',
           };
           
           languageTranslator.translate(translateParams)

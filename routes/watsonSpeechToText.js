@@ -26,12 +26,12 @@ module.exports = {
         var params = {
             objectMode: true,
             content_type: 'audio/mp3',
-            model: 'en-US_BroadbandModel',
+            model: 'pt-BR_NarrowbandModel',
             keywords: ['obama', 'speech', 'iran', 'deal'],
             keywords_threshold: 0.5,
             max_alternatives: 1
         };
-        var audioPath = path.join(__dirname, '..', 'audio', 'iran-deal-speech-trimmed.mp3');
+        var audioPath = path.join(__dirname, '..', 'audio', 'out.mp3');
         
         // Create the stream.
         var recognizeStream = speechToText.recognizeUsingWebSocket(params);
