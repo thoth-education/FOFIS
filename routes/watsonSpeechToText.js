@@ -1,11 +1,9 @@
-const express = require('express');
 const watsonConfig = require('../config/watsonConfig');
 const speechToText = watsonConfig.speechToTextConfig;
 var fs = require('fs');
 var path = require('path');
-var router = express.Router();
 
-//Concatenate API response
+//Concatenate API's response
 function concatenateResponse(response) {
     var results = response['results'];
     var functionReturn = "";
@@ -19,7 +17,7 @@ function concatenateResponse(response) {
             functionReturn = functionReturn.concat(transcript);
         }
     }    
-    return JSON.stringify(functionReturn, null, 2)
+    return functionReturn
 }
 
 //Send audio file to Speech to text API
