@@ -1,12 +1,20 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const port = 3000;
 const app = express();
+const port = 3000;
 
 //Routes
-const watsonAssistantRouter = require('./routes/watsonAssistant');
+//var watsonAssistantRouter = require('./routes/watsonAssistant');
+var watsonSpeechToTextRouter = require('./routes/watsonSpeechToText');
 
 //Endpoints
-app.use('/watsonAssistant', watsonAssistantRouter);
+//app.use('/watsonAssistant', watsonAssistantRouter);
 
-module.exports = app;
+app.listen(port, function () {
+    console.log("express has started on port " + port);
+});
+
+app.get('/', function (req, res) {
+    res.send('Hello World!')
+  })
+  
+app.use('/watsonSpeechToText', watsonSpeechToTextRouter)
