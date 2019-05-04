@@ -17,6 +17,15 @@ const speechToTextConfig = new SpeechToTextV1({
   url: credentials.speech_to_text.url
 });
 
+//Watson language translator API config constant
+const LanguageTranslatorV3 = require('watson-developer-cloud/language-translator/v3');
+const languageTranslatorConfig = new LanguageTranslatorV3({
+  version: credentials.language_translator.version,
+  iam_apikey: credentials.language_translator.key,
+  url: credentials.language_translator.url
+});
+
 //Exports
 module.exports.watsonAssistantConfig = watsonAssistantConfig;
 module.exports.speechToTextConfig = speechToTextConfig;
+module.exports.languageTranslatorConfig = languageTranslatorConfig;
