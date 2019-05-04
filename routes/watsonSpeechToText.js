@@ -27,7 +27,7 @@ module.exports = {
             objectMode: true,
             content_type: 'audio/mp3',
             model: 'pt-BR_NarrowbandModel',
-            keywords: ['obama', 'speech', 'iran', 'deal'],
+            keywords: ['triste', 'feliz', 'animado', 'bravo'],
             keywords_threshold: 0.5,
             max_alternatives: 1
         };
