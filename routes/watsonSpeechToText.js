@@ -23,6 +23,7 @@ function concatenateResponse(response) {
 //Send audio file to Speech to text API
 module.exports = {
     sendSpeechToText : function(callback){
+        var speechToTextAlreadySended = false;
         var params = {
             objectMode: true,
             content_type: 'audio/mp3',
@@ -46,11 +47,14 @@ module.exports = {
         
         // Display events on the console.
         function onEvent(name, event) {
-            if(name == 'Error:') {
-                callback(JSON.stringify(event, null, 2), null);
-            } else {
-                callback(null, concatenateResponse(event));
+            if(!speechToTextAlreadySended){
+                if(name == 'Error:') {
+                    callback(JSON.stringify(event, null, 2), null);
+                } else {
+                    callback(null, concatenateResponse(event));
+                }
             }
+            speechToTextAlreadySended = true;
         };
     }
 }
