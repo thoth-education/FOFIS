@@ -25,6 +25,13 @@ const languageTranslatorConfig = new LanguageTranslatorV3({
   url: credentials.language_translator.url
 });
 
+const ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
+const toneAnalyzer = new ToneAnalyzerV3({
+  version: credentials.tone_analyzer.version,
+  iam_apikey: credentials.tone_analyzer.key,
+  url: credentials.toneAnalyzer.url
+});
+
 //Exports
 module.exports.watsonAssistantConfig = watsonAssistantConfig;
 module.exports.speechToTextConfig = speechToTextConfig;

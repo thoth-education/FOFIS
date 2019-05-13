@@ -60,5 +60,8 @@ typings/
 # next.js build output
 .next
 
-#Credentials
+# credentials
 credentials.js
+
+# audio folder
+audio/out.mp3
