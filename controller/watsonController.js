@@ -45,3 +45,8 @@ function sendTextToTranslate(data) {
         }
     }, data);
 }
+
+function sendTextToToneAnalyzer(data){
+    console.log('Calling ToneAnalyzer');
+    
+}
