@@ -1,5 +1,6 @@
 var watsonSpeechToTextRouter = require('../routes/watsonSpeechToText');
 var watsonLanguageTranslatorRouter = require('../routes/watsonLanguageTranslator');
+var watsonToneAnalyzerRouter = require('../routes/watsonToneAnalyzer');
 var voiceRecorder = require('../audio/micRecorder');
 
 module.exports = {
@@ -23,7 +24,7 @@ function startRecordingAudio() {
 
 //Send audio to watson's speech to text api
 function sendAudioToSpeechToText() {
-    console.log('>>> Speech to Text called');
+    console.log('\n>>> Speech to Text called');
     watsonSpeechToTextRouter.sendSpeechToText(function(err, data) {
         if(err){
             console.log('Error sending audio to speech-to-text api');
@@ -36,17 +37,24 @@ function sendAudioToSpeechToText() {
 
 //Send the text to watson's translator api
 function sendTextToTranslate(data) {
-    console.log('>>> Translator to Text called');
+    console.log('\n>>> Translator to Text called');
     watsonLanguageTranslatorRouter.sendTextToTranslate(function(err, data) {
-        if(err){
+        if(err) {
             console.log('Error translating text');
         } else {
             console.log(data);
+            sendTextTranslatedToToneAnalyzer(data);
         }
     }, data);
 }
 
-function sendTextToToneAnalyzer(data){
-    console.log('Calling ToneAnalyzer');
-    
+function sendTextTranslatedToToneAnalyzer(data){
+    console.log('\n>>> Tone Analyzer called');
+    watsonToneAnalyzerRouter.sendTextTranslatedToToneAnalyzer(function(err, data) {
+        if(err) {
+            console.log('Error sending text translated to tone analyzer');
+        } else {
+            console.log(data);
+        }
+    }, data);
 }
