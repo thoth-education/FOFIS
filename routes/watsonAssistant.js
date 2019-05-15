@@ -1,6 +1,5 @@
-var express = require('express');
-var router = express.Router();
-const watsonAssistant = require('../config/watsonConfig');
+const watsonConfig = require('../config/watsonConfig');
+const watsonAssistant = watsonConfig.watsonAssistantConfig;
 
 /* POST to Watson API */
 router.post('/', function(req, res, next) {
