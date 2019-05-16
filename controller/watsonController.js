@@ -1,6 +1,7 @@
 var watsonSpeechToTextRouter = require('../routes/watsonSpeechToText');
 var watsonLanguageTranslatorRouter = require('../routes/watsonLanguageTranslator');
 var watsonToneAnalyzerRouter = require('../routes/watsonToneAnalyzer');
+var watsonTextToSpeechRouter = require('../routes/watsonTextToSpeech');
 var voiceRecorder = require('../audio/micRecorder');
 
 module.exports = {
@@ -55,6 +56,16 @@ function sendTextTranslatedToToneAnalyzer(data){
             console.log('Error sending text translated to tone analyzer');
         } else {
             console.log(data);
+        }
+    }, data);
+}
+
+function sendTextToSpeech(data){
+    watsonTextToSpeechRouter.sendTextToSpeech(function(err, data){
+        if(err){
+            console.log('Error text to speech: ', err);
+        }else{
+            console.log('statusCode', data);
         }
     }, data);
 }
