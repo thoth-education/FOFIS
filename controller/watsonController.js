@@ -31,9 +31,7 @@ function sendAudioToSpeechToText() {
             console.log('Error sending audio to speech-to-text api');
         } else {
             console.log(data);
-            sendTextToSpeech(data);
-            //sendTextToAssistant(data);
-            //sendTextToTranslate(data);
+            sendTextToTranslate(data);
         }
     });
 }
@@ -62,16 +60,12 @@ function sendTextTranslatedToToneAnalyzer(data){
     }, data);
 }
 
-function sendTextToAssistant(data){
-    console.log('\n Enviando pro assistant');
-}
-
 function sendTextToSpeech(data){
     watsonTextToSpeechRouter.sendTextToSpeech(function(err, data){
         if(err){
             console.log('Error text to speech: ', err);
         }else{
-            console.log('Deu bom');
+            console.log('statusCode', data);
         }
     }, data);
 }

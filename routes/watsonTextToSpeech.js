@@ -15,6 +15,7 @@ module.exports = {
         textToSpeech.synthesize(synthesizeParams)
             .then(audio => {
                 audio.pipe(fs.createWriteStream('./audio/retornoTtS.wav'));
+                callback(null, audio['statusCode']);
             })
             .catch(err => {
                 console.log('error:', err);
