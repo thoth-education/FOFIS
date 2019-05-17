@@ -4,9 +4,9 @@ const credentials = require('../credentials')
 //Watson assistant API config constant
 const AssistantV1 = require('watson-developer-cloud/assistant/v1');
 const watsonAssistantConfig = new AssistantV1({
-    version: credentials.watson_assistant.version,
-    iam_apikey: credentials.watson_assistant.key,
-    url: credentials.watson_assistant.url 
+  version: credentials.watson_assistant.version,
+  iam_apikey: credentials.watson_assistant.key,
+  url: credentials.watson_assistant.url 
 });
 
 //Watson speech-to-text API config constant
@@ -38,8 +38,10 @@ const textToSpeechConfig = new TextToSpeechV1({
 });
 
 //Exports
-module.exports.watsonAssistantConfig = watsonAssistantConfig;
-module.exports.speechToTextConfig = speechToTextConfig;
-module.exports.languageTranslatorConfig = languageTranslatorConfig;
-module.exports.toneAnalyzerConfig = toneAnalyzerConfig;
-module.exports.textToSpeechConfig = textToSpeechConfig;
+module.exports = {
+  watsonAssistantConfig,
+  speechToTextConfig,
+  languageTranslatorConfig,
+  toneAnalyzerConfig,
+  textToSpeechConfig,
+};
