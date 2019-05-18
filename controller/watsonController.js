@@ -1,14 +1,31 @@
-const watsonSpeechToTextRouter = require('../services/watsonSpeechToText');
-const watsonLanguageTranslatorRouter = require('../services/watsonLanguageTranslator');
-const watsonToneAnalyzerRouter = require('../services/watsonToneAnalyzer');
-const watsonTextToSpeechRouter = require('../services/watsonTextToSpeech');
+/* eslint-disable no-console */
+const watsonSpeechToTextService = require('../services/watsonSpeechToText');
+const watsonLanguageTranslatorService = require('../services/watsonLanguageTranslator');
+const watsonToneAnalyzerService = require('../services/watsonToneAnalyzer');
+const watsonTextToSpeechService = require('../services/watsonTextToSpeech');
+const watsonAssistantService = require('../services/watsonAssistant');
 const voiceRecorder = require('../audio/micRecorder');
+const audioPlayer = require('../audio/audioPlayer');
 
 module.exports = {
   //Starts the chain of watson's api calls
   startChain : function() {
-    startRecordingAudio();
+    callAssistantWelcome();
   }
+}
+
+//Log the assistant's welcome
+const callAssistantWelcome = () => {
+  watsonAssistantService.sendTextToAssistant(function(err, data, context) {
+    if (err) {
+      console.log('Error sending text to assistant, error: ' + err);
+    } else {
+      console.log(data);
+      watsonAssistantService.context = context;
+      sendTextToSpeech(data);
+      startRecordingAudio();
+    }
+  });
 }
 
 //Record audio input
@@ -17,7 +34,6 @@ const startRecordingAudio = () => {
     if(err) {
       console.log('Error recording audio');
     } else {
-      console.log(data);
       sendAudioToSpeechToText();
     }
   });
@@ -25,12 +41,13 @@ const startRecordingAudio = () => {
 
 //Send audio to watson's speech to text api
 const sendAudioToSpeechToText = () => {
-  console.log('\n>>> Speech to Text called');
-  watsonSpeechToTextRouter.sendSpeechToText(function(err, data) {
+  //console.log('\n>>> Speech to Text called');
+  watsonSpeechToTextService.sendSpeechToText(function(err, data) {
     if(err) {
       console.log('Error sending audio to speech-to-text api');
     } else {
       console.log(data);
+      sendTextToAssistant(data);
       sendTextToTranslate(data);
     }
   });
@@ -38,34 +55,47 @@ const sendAudioToSpeechToText = () => {
 
 //Send the text to watson's translator api
 const sendTextToTranslate = (data) => {
-  console.log('\n>>> Translator to Text called');
-  watsonLanguageTranslatorRouter.sendTextToTranslate(function(err, data) {
+  //console.log('\n>>> Translator to Text called');
+  watsonLanguageTranslatorService.sendTextToTranslate(function(err, data) {
     if (err) {
       console.log('Error translating text');
     } else {
-      console.log(data);
       sendTextTranslatedToToneAnalyzer(data);
     }
   }, data);
 }
 
 const sendTextTranslatedToToneAnalyzer = (data) => {
-  console.log('\n>>> Tone Analyzer called');
-  watsonToneAnalyzerRouter.sendTextTranslatedToToneAnalyzer(function(err, data) {
+  //console.log('\n>>> Tone Analyzer called');
+  watsonToneAnalyzerService.sendTextTranslatedToToneAnalyzer(function(err, data) {
     if (err) {
       console.log('Error sending text translated to tone analyzer');
     } else {
-      console.log(data);
+      //console.log(data);
     }
   }, data);
 }
 
+const sendTextToAssistant = (data) => {
+  console.log('\n>>> Assistant called');
+  watsonAssistantService.sendTextToAssistant(function(err, data, context) {
+    if (err) {
+      console.log('Error sending text to assistant, error: ' + err);
+    } else {
+      console.log(data);
+      watsonAssistantService.context = context;
+      sendTextToSpeech(data);
+      startRecordingAudio();
+    }
+  }, data, watsonAssistantService.context);
+}
+
 const sendTextToSpeech = (data) => {
-  watsonTextToSpeechRouter.sendTextToSpeech(function(err, data){
+  watsonTextToSpeechService.sendTextToSpeech(function(err, data){
     if (err) {
       console.log('Error text to speech: ', err);
     } else {
-      console.log('statusCode', data);
+      audioPlayer.playAudio();
     }
   }, data);
 }
