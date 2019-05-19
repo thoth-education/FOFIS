@@ -3,8 +3,8 @@ const languageTranslator = watsonConfig.languageTranslatorConfig;
 
 //Function to concatenate API's response
 function getTranslationText(response) {
-  var translations = response['translations'];
-  var firstObject = translations[0]
+  let translations = response['translations'];
+  let firstObject = translations[0]
   return firstObject['translation']
 }
 

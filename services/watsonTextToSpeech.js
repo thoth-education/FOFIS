@@ -8,13 +8,13 @@ module.exports = {
 
     const synthesizeParams = {
       text: data,
-      accept: 'audio/wav',
+      accept: 'audio/mp3',
       voice: "pt-BR_IsabelaVoice"
     }
 
     textToSpeech.synthesize(synthesizeParams)
       .then(audio => {
-        audio.pipe(fs.createWriteStream('./audio/retornoTtS.wav'));
+        audio.pipe(fs.createWriteStream('./audio/answer.mp3'));
         callback(null, audio['statusCode']);
       })
       .catch(err => {
