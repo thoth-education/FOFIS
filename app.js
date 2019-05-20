@@ -1,2 +1,2 @@
-var watsonController = require('./controller/watsonController')
+const watsonController = require('./controller/watsonController');
 watsonController.startChain();

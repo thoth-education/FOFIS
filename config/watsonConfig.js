@@ -4,10 +4,9 @@ const credentials = require('../credentials')
 //Watson assistant API config constant
 const AssistantV1 = require('watson-developer-cloud/assistant/v1');
 const watsonAssistantConfig = new AssistantV1({
-    version: '2019-18-03',
-    username: 'apikey',
-    password: '<PASSWORD>',
-    url: 'https://gateway.watsonplatform.net/assistant/api'
+  version: credentials.watson_assistant.version,
+  iam_apikey: credentials.watson_assistant.key,
+  url: credentials.watson_assistant.url 
 });
 
 //Watson speech-to-text API config constant
@@ -25,7 +24,24 @@ const languageTranslatorConfig = new LanguageTranslatorV3({
   url: credentials.language_translator.url
 });
 
+const ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
+const toneAnalyzerConfig = new ToneAnalyzerV3({
+  version: credentials.tone_analyzer.version,
+  iam_apikey: credentials.tone_analyzer.key,
+  url: credentials.tone_analyzer.url
+});
+
+const TextToSpeechV1 = require('watson-developer-cloud/text-to-speech/v1');
+const textToSpeechConfig = new TextToSpeechV1({
+  iam_apikey: credentials.text_to_speech.key,
+  url: credentials.text_to_speech.url
+});
+
 //Exports
-module.exports.watsonAssistantConfig = watsonAssistantConfig;
-module.exports.speechToTextConfig = speechToTextConfig;
-module.exports.languageTranslatorConfig = languageTranslatorConfig;
+module.exports = {
+  watsonAssistantConfig,
+  speechToTextConfig,
+  languageTranslatorConfig,
+  toneAnalyzerConfig,
+  textToSpeechConfig,
+};
