@@ -6,10 +6,12 @@ const watsonTextToSpeechService = require('../services/watsonTextToSpeech');
 const watsonAssistantService = require('../services/watsonAssistant');
 const voiceRecorder = require('../audio/micRecorder');
 const audioPlayer = require('../audio/audioPlayer');
+const logger = require('../services/chatLog');
 
 module.exports = {
   //Starts the chain of watson's api calls
   startChain : function() {
+    logger.clearLog();
     callAssistantWelcome();
   }
 }
@@ -21,6 +23,7 @@ const callAssistantWelcome = () => {
       console.log('Error sending text to assistant, error: ' + err);
     } else {
       console.log(data);
+      logger.addLog('\n>>> FOFIS\'s response \n' + data);
       watsonAssistantService.context = context;
       sendTextToSpeech(data);
       startRecordingAudio();
@@ -47,6 +50,7 @@ const sendAudioToSpeechToText = () => {
       console.log('Error sending audio to speech-to-text api');
     } else {
       console.log(data);
+      logger.addLog('\n>>> Kid\'s phrase \n' + data);
       sendTextToAssistant(data);
       sendTextToTranslate(data);
     }
@@ -67,11 +71,12 @@ const sendTextToTranslate = (data) => {
 
 const sendTextTranslatedToToneAnalyzer = (data) => {
   //console.log('\n>>> Tone Analyzer called');
-  watsonToneAnalyzerService.sendTextTranslatedToToneAnalyzer(function(err, data) {
+  watsonToneAnalyzerService.sendTextTranslatedToToneAnalyzer(function(err, data_sent, result) {
     if (err) {
-      console.log('Error sending text translated to tone analyzer');
+      console.log(err);
+      console.log('\nError sending text translated to tone analyzer');
     } else {
-      //console.log(data);
+      logger.addToneAnalyzerLog(data_sent, result);
     }
   }, data);
 }
@@ -80,9 +85,10 @@ const sendTextToAssistant = (data) => {
   console.log('\n>>> Assistant called');
   watsonAssistantService.sendTextToAssistant(function(err, data, context) {
     if (err) {
-      console.log('Error sending text to assistant, error: ' + err);
+      console.log('\nError sending text to assistant, error: ' + err);
     } else {
       console.log(data);
+      logger.addLog('\n>>> FOFIS\'s response \n' + data);
       watsonAssistantService.context = context;
       sendTextToSpeech(data);
       startRecordingAudio();
