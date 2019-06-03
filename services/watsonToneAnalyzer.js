@@ -14,10 +14,10 @@ module.exports = {
 
     toneAnalyzer.tone(toneParams)
       .then(toneAnalysis => {
-        callback(null, (JSON.stringify(toneAnalysis, null, 2)));
+        callback(null, data, toneAnalysis);
       })
       .catch(err => {
-        callback(console.log('error:', err), null);
+        callback(err, data, null);
       });
   }
 };
